@@ -1,0 +1,28 @@
+'''
+计算文件家的总大小是一个典型的递归案例：
+递归函数：自己调用自己的函数被称为递归函数；
+
+什么时候触发递归？
+1. 当最后一层栈帧空间执行结束的时候，触发递归
+2. 当遇到return返回值的时候，终止当前函数触发递归。
+
+'''
+
+import os
+# 计算文件大小
+def get_dir_size(pathvar):
+    # 获取当前绝对路径中的内容
+    list  = os.listdir(pathvar)
+    #设置大小收集器
+    total = 0
+    #判断是文件还目录。是文件的话就直接计算大小，是目录的话就递归计算
+    for i in list:
+        path_new = os.path.join(pathvar,i)
+        if os.path.isdir(path_new):
+            # 目录中存在多级目录，因此该出使用递归方法
+            total += get_dir_size(path_new)
+        elif os.path.isfile(path_new):
+            total += os.path.getsize(path_new)
+    return total
+
+print(get_dir_size('/home/uos/Desktop'))
